@@ -11,26 +11,32 @@ import com.hh.demo.dao.ProjectDAO;
 import com.hh.demo.model.Project;
 
 @Service
-public class ProjectServiceImpl {
+public class ProjectServiceImpl implements ProjectService{
 
 	@Autowired
 	private ProjectDAO projectDAO;
 	
 	@Transactional
+	@Override
 	public List<Project> get() {
-		
 		return projectDAO.findAll();
 	}
+	
 	@Transactional
+	@Override
 	public Optional<Project> get(int id) {
 		return projectDAO.findById(id);
 	}
+	
 	@Transactional
-	public void create(Project project) {
-		projectDAO.save(project);
+	@Override
+	public Project create(Project project) {
+		return projectDAO.save(project);
 	}
+	
 	@Transactional
-	public void delete(Project project) {
-		projectDAO.delete(project);
+	@Override
+	public void delete(int id) {
+		projectDAO.deleteById(id);
 	}
 }

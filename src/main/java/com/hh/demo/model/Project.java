@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -40,7 +41,7 @@ public class Project {
 	@Column
 	private String description;
 	@Column
-	private List<String> tools;
+	private String tools;
 	@Column
 	private String pm;
 	@Column
@@ -52,9 +53,11 @@ public class Project {
 	@Column
 	private double effort;
 	@Column
+	@ElementCollection(targetClass = Consultant.class)
 	@OneToMany
 	private List<Consultant> consultants;
 	@Column
+	@ElementCollection(targetClass = ClientPOC.class)
 	@OneToMany
 	private List<ClientPOC> clientPOCs;
 
@@ -158,11 +161,11 @@ public class Project {
 		this.description = description;
 	}
 
-	public List<String> getTools() {
+	public String getTools() {
 		return tools;
 	}
 
-	public void setTools(List<String> tools) {
+	public void setTools(String tools) {
 		this.tools = tools;
 	}
 
@@ -209,7 +212,7 @@ public class Project {
 
 
 	public Project(String name, String type, Date start, Date end, int duration, String status, String methodology,
-			String description, List<String> tools, String pm, String dm, String client, double budget, double effort,
+			String description, String tools, String pm, String dm, String client, double budget, double effort,
 			List<Consultant> consultants, List<ClientPOC> clientPOCs) {
 		super();
 		this.name = name;

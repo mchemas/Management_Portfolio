@@ -11,26 +11,30 @@ import com.hh.demo.dao.PortfolioDAO;
 import com.hh.demo.model.Portfolio;
 
 @Service
-public class PortfolioServiceImpl {
+public class PortfolioServiceImpl implements PortfolioService{
 
 	@Autowired
 	private PortfolioDAO portfolioDAO;
 	
 	@Transactional
+	@Override
 	public List<Portfolio> get() {
 		
 		return portfolioDAO.findAll();
 	}
 	@Transactional
+	@Override
 	public Optional<Portfolio> get(int id) {
 		return portfolioDAO.findById(id);
 	}
 	@Transactional
-	public void create(Portfolio portfolio) {
-		portfolioDAO.save(portfolio);
+	@Override
+	public Portfolio create(Portfolio portfolio) {
+		return portfolioDAO.save(portfolio);
 	}
 	@Transactional
-	public void delete(Portfolio portfolio) {
-		portfolioDAO.delete(portfolio);
+	@Override
+	public void delete(int id) {
+		portfolioDAO.deleteById(id);
 	}
 }
