@@ -60,13 +60,16 @@ public class Project {
 	@ElementCollection(targetClass = ClientPOC.class)
 	@OneToMany
 	private List<ClientPOC> clientPOCs;
+	
+
 
 	public Project() {
 		// TODO Auto-generated constructor stub
 	}
 
-	
-	
+
+
+
 	public List<ClientPOC> getClientPOCs() {
 		return clientPOCs;
 	}

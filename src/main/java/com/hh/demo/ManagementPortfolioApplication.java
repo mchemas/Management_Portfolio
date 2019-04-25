@@ -32,6 +32,9 @@ public class ManagementPortfolioApplication implements CommandLineRunner{
 	
 	private static List<Consultant> consultantList;
 	private static List<ClientPOC> clientPOCList;
+	
+	private static List<Consultant> consultantList2;
+	private static List<ClientPOC> clientPOCList2;
 	private static List<Project> projectList;
 	
 	public static void main(String[] args) {
@@ -55,10 +58,16 @@ public class ManagementPortfolioApplication implements CommandLineRunner{
 		// since you need to add lists of people into project, those need to be made first
 		// need to make these lists STRICTLY from people already in the db
 		////////////
-		consultantList = consultantDAO.findAll(); //returns a list object
+		consultantList = new ArrayList<Consultant>();//returns a list object
+		consultantList.add(consultantDAO.getOne(1));
+		consultantList2 = new ArrayList<Consultant>();//returns a list object
+		consultantList2.add(consultantDAO.getOne(3));
 		
 		clientPOCList = new ArrayList<ClientPOC>();
 		clientPOCList.add(pocDAO.getOne(2));
+		
+		clientPOCList2 = new ArrayList<ClientPOC>();
+		clientPOCList2.add(pocDAO.getOne(1));
 		
 		////////////
 		// making dummy project
@@ -82,8 +91,29 @@ public class ManagementPortfolioApplication implements CommandLineRunner{
 				clientPOCList
 				));
 		
+		projectService.create(new Project(
+				"FEDEX",
+				"Dummy Type",
+				Date.valueOf("2019-01-01"),
+				Date.valueOf("2019-12-12"),
+				12,
+				"Active",
+				"Agile",
+				"This is a dummy project",
+				"Hammer, Screwdriver, Wrench",
+				"PM",
+				"DM",
+				"Dummy Client",
+				10000000,
+				10,
+				consultantList2,
+				clientPOCList2
+				));
+		
 		projectList = new ArrayList<Project>();
 		projectList.add(projectService.get(1));
+
+		projectList.add(projectService.get(2));
 		
 		/////////
 		//dummy portfolio
@@ -92,7 +122,7 @@ public class ManagementPortfolioApplication implements CommandLineRunner{
 				"Bobby",
 				12345.67, 
 				"Vinay", 
-				(ArrayList<Project>) projectList
+				projectList
 				));
 	}
 

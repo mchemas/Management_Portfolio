@@ -1,14 +1,15 @@
 package com.hh.demo.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -26,6 +27,7 @@ public class Portfolio {
 	@Column
 	private String owner;
 	@Column
+	@OneToMany(cascade = CascadeType.MERGE)
 	@ElementCollection(targetClass = Project.class)
 	private List<Project> projects;
 
@@ -33,7 +35,7 @@ public class Portfolio {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Portfolio(String name, double budget, String owner, ArrayList<Project> projects) {
+	public Portfolio(String name, double budget, String owner, List<Project> projects) {
 		super();
 		this.name = name;
 		this.budget = budget;
