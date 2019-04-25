@@ -85,8 +85,8 @@ public class Management_Portfolio_Controller {
 	}
 
 	@GetMapping("/project/{id}")
-	public Optional<Project> getProject(@PathVariable Integer id) throws CustomException {
-		Optional<Project> project = projectService.get(id);
+	public Project getProject(@PathVariable Integer id) throws CustomException {
+		Project project = projectService.get(id);
 		if (project == null) {
 			throw new CustomException("Project with ID: " + id + " not found");
 		}
@@ -96,7 +96,7 @@ public class Management_Portfolio_Controller {
 	@DeleteMapping("/project/{id}")
 	public boolean deleteProject(@PathVariable Integer id) throws CustomException {
 		projectService.delete(id);
-		Optional<Project> project = projectService.get(id);
+		Project project = projectService.get(id);
 		if (project != null) {
 			throw new CustomException("Unable to delete project with ID: " + id);
 		}
@@ -114,9 +114,9 @@ public class Management_Portfolio_Controller {
 
 	@PutMapping("/project")
 	public Project updateProject(@RequestBody Project project) throws CustomException {
-		Optional<Project> preupdate = projectService.get(project.getId());
+		Project preupdate = projectService.get(project.getId());
 		project = projectService.create(project);
-		Optional<Project> postupdate = projectService.get(project.getId());
+		Project postupdate = projectService.get(project.getId());
 		if (preupdate.equals(postupdate)) {
 			throw new CustomException("Unable to update project with ID: " + project.getId());
 		}
