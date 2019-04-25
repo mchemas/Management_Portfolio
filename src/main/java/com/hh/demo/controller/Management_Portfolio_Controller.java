@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hh.demo.dao.ConsultantDAO;
 import com.hh.demo.exception.CustomException;
+import com.hh.demo.model.Consultant;
 import com.hh.demo.model.Portfolio;
 import com.hh.demo.model.Project;
 import com.hh.demo.service.PortfolioService;
@@ -30,6 +32,9 @@ public class Management_Portfolio_Controller {
 
 	@Autowired
 	private PortfolioService portfolioService;
+	
+	@Autowired
+	private ConsultantDAO consultantDAO;
 
 	/*********************************************************************************************/
 
@@ -122,4 +127,14 @@ public class Management_Portfolio_Controller {
 		}
 		return project;
 	}
+	
+	/*********************************************************************************************
+	 * Mike's Custom Controller
+	 * Selects Consultants who are not currently assigned to a project
+	 *********************************************************************************************/
+	@GetMapping("/unassignedConsultants")
+	public List<Consultant> getUnassignedConsultants(){
+		return consultantDAO.getUnassignedConsultants();
+	}
+	
 }
