@@ -24,8 +24,8 @@ public class ProjectServiceImpl implements ProjectService{
 	
 	@Transactional
 	@Override
-	public Optional<Project> get(int id) {
-		return projectDAO.findById(id);
+	public Project get(int id) {
+		return projectDAO.getOne(id);
 	}
 	
 	@Transactional
