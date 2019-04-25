@@ -32,7 +32,7 @@ public class Management_Portfolio_Controller {
 
 	@Autowired
 	private PortfolioService portfolioService;
-	
+
 	@Autowired
 	private ConsultantDAO consultantDAO;
 
@@ -53,12 +53,8 @@ public class Management_Portfolio_Controller {
 	}
 
 	@DeleteMapping("/portfolio/{id}")
-	public boolean deletePortfolio(@PathVariable Integer id) throws CustomException {
+	public boolean deletePortfolio(@PathVariable Integer id) {
 		portfolioService.delete(id);
-		Optional<Portfolio> portfolio = portfolioService.get(id);
-		if (portfolio != null) {
-			throw new CustomException("Unable to delete portfolio with ID: " + id);
-		}
 		return true;
 	}
 
@@ -99,12 +95,8 @@ public class Management_Portfolio_Controller {
 	}
 
 	@DeleteMapping("/project/{id}")
-	public boolean deleteProject(@PathVariable Integer id) throws CustomException {
+	public boolean deleteProject(@PathVariable Integer id) {
 		projectService.delete(id);
-		Project project = projectService.get(id);
-		if (project != null) {
-			throw new CustomException("Unable to delete project with ID: " + id);
-		}
 		return true;
 	}
 
@@ -127,14 +119,14 @@ public class Management_Portfolio_Controller {
 		}
 		return project;
 	}
-	
+
 	/*********************************************************************************************
-	 * Mike's Custom Controller
-	 * Selects Consultants who are not currently assigned to a project
+	 * Mike's Custom Controller Selects Consultants who are not currently assigned
+	 * to a project
 	 *********************************************************************************************/
 	@GetMapping("/unassignedConsultants")
-	public List<Consultant> getUnassignedConsultants(){
+	public List<Consultant> getUnassignedConsultants() {
 		return consultantDAO.getUnassignedConsultants();
 	}
-	
+
 }
