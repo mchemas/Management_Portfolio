@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "clientpoc")
@@ -16,8 +18,10 @@ public class ClientPOC {
 	@Column
 	private Integer id;
 	@Column
+	@Size(min=2,max=30)
 	private String name;
 	@Column
+	@Pattern(regexp="\\w+@\\w+\\.\\w+")
 	private String email;
 
 	public ClientPOC() {
