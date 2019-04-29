@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "consultant")
@@ -16,10 +18,13 @@ public class Consultant {
 	@Column
 	private Integer id;
 	@Column
+	@Size(min=2,max=30)
 	private String name;
 	@Column
+	@Size(min=2,max=30)
 	private String role;
 	@Column
+	@Min(1)
 	private int duration; // months
 
 	public Consultant() {

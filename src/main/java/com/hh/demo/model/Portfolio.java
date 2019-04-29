@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "portfolio")
@@ -21,10 +22,12 @@ public class Portfolio {
 	@Column
 	private Integer id;
 	@Column
+	@Size(min=2,max=30)
 	private String name;
 	@Column
 	private double budget;
 	@Column
+	@Size(min=2,max=30)
 	private String owner;
 	@Column
 	@OneToMany(cascade = CascadeType.MERGE)
