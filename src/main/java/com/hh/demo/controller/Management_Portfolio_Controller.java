@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hh.demo.dao.ClientPocDAO;
 import com.hh.demo.dao.ConsultantDAO;
 import com.hh.demo.exception.CustomException;
 import com.hh.demo.model.ClientPOC;
@@ -35,15 +36,18 @@ public class Management_Portfolio_Controller {
 
 	@Autowired
 	private PortfolioService portfolioService;
-
-	@Autowired
-	private ConsultantDAO consultantDAO;
 	
 	@Autowired
 	private ConsultantService consultantService;
 	
 	@Autowired
 	private ClientPOCService clientPOCService;
+	
+	@Autowired
+	private ConsultantDAO consultantDAO;
+	
+	@Autowired
+	private ClientPocDAO clientPocDAO;
 
 	/*********************************************************************************************/
 
@@ -220,6 +224,15 @@ public class Management_Portfolio_Controller {
 	@GetMapping("/unassignedConsultants")
 	public List<Consultant> getUnassignedConsultants() {
 		return consultantDAO.getUnassignedConsultants();
+	}
+	
+	/*********************************************************************************************
+	 * Custom ClientPOC Endpoint - Selects ClientPOCs who are not currently assigned to a project
+	 *********************************************************************************************/
+	
+	@GetMapping("/unassignedClientPOCs")
+	public List<ClientPOC> getUnassignedClientPOCs() {
+		return clientPocDAO.getUnassignedClientPOCs();
 	}
 
 }
