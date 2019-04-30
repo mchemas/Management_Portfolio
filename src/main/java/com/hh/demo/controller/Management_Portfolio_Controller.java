@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hh.demo.dao.ConsultantDAO;
 import com.hh.demo.exception.CustomException;
+import com.hh.demo.model.ClientPOC;
 import com.hh.demo.model.Consultant;
 import com.hh.demo.model.Portfolio;
 import com.hh.demo.model.Project;
+import com.hh.demo.service.ClientPOCService;
 import com.hh.demo.service.ConsultantService;
 import com.hh.demo.service.PortfolioService;
 import com.hh.demo.service.ProjectService;
@@ -39,6 +41,9 @@ public class Management_Portfolio_Controller {
 	
 	@Autowired
 	private ConsultantService consultantService;
+	
+	@Autowired
+	private ClientPOCService clientPOCService;
 
 	/*********************************************************************************************/
 
@@ -124,15 +129,6 @@ public class Management_Portfolio_Controller {
 		return project;
 	}
 
-	/*********************************************************************************************
-	 * Custom Consultant Endpoint - Selects Consultants who are not currently assigned to a project
-	 *********************************************************************************************/
-	
-	@GetMapping("/unassignedConsultants")
-	public List<Consultant> getUnassignedConsultants() {
-		return consultantDAO.getUnassignedConsultants();
-	}
-
 	/*********************************************************************************************/
 	
 	@GetMapping("/consultants")
@@ -175,4 +171,55 @@ public class Management_Portfolio_Controller {
 		return consultant;
 	}
 	
+	/*********************************************************************************************/
+	
+	@GetMapping("/clientPOCs")
+	public List<ClientPOC> getClientPOCs() {
+	  return clientPOCService.get();
+	}
+
+	@GetMapping("/clientPOC/{id}")
+	public ClientPOC getClientPOC(@PathVariable Integer id) throws CustomException {
+	  ClientPOC clientPOC = clientPOCService.get(id);
+	  if (clientPOC == null) {
+	    throw new CustomException("ClientPOC with ID: " + id + " not found");
+	  }
+	  return clientPOC;
+	}
+
+	@DeleteMapping("/clientPOC/{id}")
+	public boolean deleteClientPOC(@PathVariable Integer id) {
+	  clientPOCService.delete(id);
+	  return true;
+	}
+
+	@PostMapping("/clientPOC")
+	public ClientPOC createClientPOC(@RequestBody ClientPOC clientPOC) throws CustomException {
+	  ClientPOC c = clientPOCService.create(clientPOC);
+	  if (c == null) {
+	    throw new CustomException("Unable to create clientPOC with ID: " + clientPOC.getId());
+	  }
+	  return c;
+	}
+
+	@PutMapping("/clientPOC")
+	public ClientPOC updateClientPOC(@RequestBody ClientPOC clientPOC) throws CustomException {
+	  ClientPOC preupdate = clientPOCService.get(clientPOC.getId());
+	  clientPOC = clientPOCService.create(clientPOC);
+	  ClientPOC postupdate = clientPOCService.get(clientPOC.getId());
+	  if (preupdate.equals(postupdate)) {
+	    throw new CustomException("Unable to update clientPOC with ID: " + clientPOC.getId());
+	  }
+	  return clientPOC;
+	}
+	
+	/*********************************************************************************************
+	 * Custom Consultant Endpoint - Selects Consultants who are not currently assigned to a project
+	 *********************************************************************************************/
+	
+	@GetMapping("/unassignedConsultants")
+	public List<Consultant> getUnassignedConsultants() {
+		return consultantDAO.getUnassignedConsultants();
+	}
+
 }
