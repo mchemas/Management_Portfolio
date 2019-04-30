@@ -19,6 +19,7 @@ import com.hh.demo.exception.CustomException;
 import com.hh.demo.model.Consultant;
 import com.hh.demo.model.Portfolio;
 import com.hh.demo.model.Project;
+import com.hh.demo.service.ConsultantService;
 import com.hh.demo.service.PortfolioService;
 import com.hh.demo.service.ProjectService;
 
@@ -35,6 +36,9 @@ public class Management_Portfolio_Controller {
 
 	@Autowired
 	private ConsultantDAO consultantDAO;
+	
+	@Autowired
+	private ConsultantService consultantService;
 
 	/*********************************************************************************************/
 
@@ -121,12 +125,54 @@ public class Management_Portfolio_Controller {
 	}
 
 	/*********************************************************************************************
-	 * Mike's Custom Controller Selects Consultants who are not currently assigned
-	 * to a project
+	 * Custom Consultant Endpoint - Selects Consultants who are not currently assigned to a project
 	 *********************************************************************************************/
+	
 	@GetMapping("/unassignedConsultants")
 	public List<Consultant> getUnassignedConsultants() {
 		return consultantDAO.getUnassignedConsultants();
 	}
 
+	/*********************************************************************************************/
+	
+	@GetMapping("/consultants")
+	public List<Consultant> getConsultants() {
+		return consultantService.get();
+	}
+
+	@GetMapping("/consultant/{id}")
+	public Consultant getConsultant(@PathVariable Integer id) throws CustomException {
+		Consultant consultant = consultantService.get(id);
+		if (consultant == null) {
+			throw new CustomException("Consultant with ID: " + id + " not found");
+		}
+		return consultant;
+	}
+
+	@DeleteMapping("/consultant/{id}")
+	public boolean deleteConsultant(@PathVariable Integer id) {
+		consultantService.delete(id);
+		return true;
+	}
+
+	@PostMapping("/consultant")
+	public Consultant createConsultant(@RequestBody Consultant consultant) throws CustomException {
+		Consultant c = consultantService.create(consultant);
+		if (c == null) {
+			throw new CustomException("Unable to create consultant with ID: " + consultant.getId());
+		}
+		return c;
+	}
+
+	@PutMapping("/consultant")
+	public Consultant updateConsultant(@RequestBody Consultant consultant) throws CustomException {
+		Consultant preupdate = consultantService.get(consultant.getId());
+		consultant = consultantService.create(consultant);
+		Consultant postupdate = consultantService.get(consultant.getId());
+		if (preupdate.equals(postupdate)) {
+			throw new CustomException("Unable to update consultant with ID: " + consultant.getId());
+		}
+		return consultant;
+	}
+	
 }
